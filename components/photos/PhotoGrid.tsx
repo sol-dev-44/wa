@@ -108,8 +108,8 @@ export default function PhotoGrid({ photos, onPhotoClick }: PhotoGridProps) {
                           ? format(parseISO(photo.taken_at), 'MMM d, yyyy')
                           : format(parseISO(photo.created_at), 'MMM d, yyyy')}
                       </span>
-                      {photo.uploaded_by && (
-                        <AuthorByline authorId={photo.uploaded_by} className="[&_span]:text-cream/70" />
+                      {photo.author_id && (
+                        <AuthorByline authorId={photo.author_id} className="[&_span]:text-cream/70" />
                       )}
                     </div>
                   </div>
