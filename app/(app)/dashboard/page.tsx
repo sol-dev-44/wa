@@ -143,16 +143,32 @@ function DashboardContent({ childId }: { childId: string }) {
     >
       {/* ── Hero ── */}
       <motion.div variants={itemVariants}>
-        <div className="overflow-hidden rounded-xl bg-ink px-5 py-8 text-cream md:px-8 md:py-10">
-          <p className="text-sm font-medium uppercase tracking-widest text-cream/50">
-            Dashboard
-          </p>
-          <h1 className="mt-2 font-serif text-3xl font-semibold italic md:text-4xl">
-            {child.name}
-          </h1>
-          <p className="mt-1 text-base text-cream/70">
-            {formatAge(child.date_of_birth)} old
-          </p>
+        <div className="relative overflow-hidden rounded-xl bg-ink px-5 py-8 text-cream md:px-8 md:py-10">
+          {/* Background kanji */}
+          <span
+            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 select-none font-serif text-[10rem] leading-none text-cream/[0.03] md:right-8 md:text-[12rem]"
+            aria-hidden="true"
+          >
+            和
+          </span>
+
+          <div className="relative z-10">
+            <div className="flex items-center gap-2">
+              <span className="text-xl text-cream/30">和</span>
+              <p className="text-sm font-medium uppercase tracking-widest text-cream/50">
+                Dashboard
+              </p>
+            </div>
+            <h1 className="mt-2 font-serif text-3xl font-semibold italic md:text-4xl">
+              {child.name}
+            </h1>
+            <p className="mt-1 text-base text-cream/70">
+              {formatAge(child.date_of_birth)} old
+            </p>
+            <p className="mt-2 text-sm text-clay/80">
+              Harmony in co-parenting
+            </p>
+          </div>
         </div>
       </motion.div>
 
