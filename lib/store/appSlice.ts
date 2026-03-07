@@ -7,7 +7,7 @@ interface AppState {
 
 const initialState: AppState = {
   activeChildId: null,
-  sidebarCollapsed: false,
+  sidebarCollapsed: true,
 };
 
 export const appSlice = createSlice({

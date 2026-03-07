@@ -24,7 +24,7 @@ export default function PageShell({ title, subtitle, children }: PageShellProps)
       className="py-8"
     >
       <div className="mb-8">
-        <h1 className="font-serif text-4xl font-semibold text-ink">{title}</h1>
+        <h1 className="font-serif text-3xl font-semibold text-ink md:text-4xl">{title}</h1>
         {subtitle && <p className="mt-2 text-base text-clay">{subtitle}</p>}
       </div>
       {children}

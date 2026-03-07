@@ -1,8 +1,8 @@
 'use client'
 
-import { Bell, ChevronDown, Plus } from 'lucide-react'
+import { Menu, Bell, ChevronDown, Plus } from 'lucide-react'
 import { useAppSelector, useAppDispatch } from '@/lib/store/store'
-import { setActiveChildId } from '@/lib/store/appSlice'
+import { setActiveChildId, toggleSidebar } from '@/lib/store/appSlice'
 import { useGetChildrenQuery, useGetCoParentsQuery } from '@/lib/store/api'
 import Avatar from '@/components/ui/Avatar'
 import AddChildForm from '@/components/children/AddChildForm'
@@ -44,67 +44,75 @@ export default function TopBar() {
 
   return (
   <>
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-mist bg-cream px-6">
-      {/* Left: Child name switcher */}
-      <div className="relative" ref={switcherRef}>
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-mist bg-cream px-4 md:h-16 md:px-6">
+      {/* Left: Hamburger + Child name switcher */}
+      <div className="flex items-center gap-2">
         <button
-          onClick={() => setSwitcherOpen(!switcherOpen)}
-          className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-ink transition-colors hover:bg-mist focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage"
-          aria-label="Switch child"
-          aria-expanded={switcherOpen}
-          aria-haspopup="listbox"
+          onClick={() => dispatch(toggleSidebar())}
+          className="rounded-md p-2 text-ink/60 transition-colors hover:bg-mist hover:text-ink md:hidden"
+          aria-label="Open menu"
         >
-          <span className="font-serif text-xl font-semibold text-ink">
-            {activeChild?.name ?? 'Select child'}
-          </span>
-          <ChevronDown size={16} className="text-clay" aria-hidden="true" />
+          <Menu size={22} aria-hidden="true" />
         </button>
 
-        {switcherOpen && (
-          <div
-            className="absolute left-0 top-full mt-1 min-w-[180px] rounded-lg border border-mist bg-white py-1 shadow-md"
+        <div className="relative" ref={switcherRef}>
+          <button
+            onClick={() => setSwitcherOpen(!switcherOpen)}
+            className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-ink transition-colors hover:bg-mist focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage"
+            aria-label="Switch child"
+            aria-expanded={switcherOpen}
+            aria-haspopup="listbox"
           >
-            {children && children.length > 1 && (
-              <ul role="listbox" aria-label="Children">
-                {children.map((child) => (
-                  <li key={child.id} role="option" aria-selected={child.id === activeChildId}>
-                    <button
-                      onClick={() => {
-                        dispatch(setActiveChildId(child.id))
-                        setSwitcherOpen(false)
-                      }}
-                      className={cn(
-                        'flex w-full items-center gap-2 px-3 py-2.5 text-base transition-colors',
-                        child.id === activeChildId
-                          ? 'bg-sage/10 font-medium text-sage-deep'
-                          : 'text-ink hover:bg-mist/50'
-                      )}
-                    >
-                      {child.name}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <button
-              onClick={() => {
-                setSwitcherOpen(false)
-                setAddChildOpen(true)
-              }}
-              className={cn(
-                'flex w-full items-center gap-2 px-3 py-2.5 text-base text-sage-deep transition-colors hover:bg-mist/50',
-                children && children.length > 1 && 'border-t border-mist'
+            <span className="font-serif text-lg font-semibold text-ink md:text-xl">
+              {activeChild?.name ?? 'Select child'}
+            </span>
+            <ChevronDown size={16} className="text-clay" aria-hidden="true" />
+          </button>
+
+          {switcherOpen && (
+            <div className="absolute left-0 top-full mt-1 min-w-[180px] rounded-lg border border-mist bg-white py-1 shadow-md">
+              {children && children.length > 1 && (
+                <ul role="listbox" aria-label="Children">
+                  {children.map((child) => (
+                    <li key={child.id} role="option" aria-selected={child.id === activeChildId}>
+                      <button
+                        onClick={() => {
+                          dispatch(setActiveChildId(child.id))
+                          setSwitcherOpen(false)
+                        }}
+                        className={cn(
+                          'flex w-full items-center gap-2 px-3 py-2.5 text-base transition-colors',
+                          child.id === activeChildId
+                            ? 'bg-sage/10 font-medium text-sage-deep'
+                            : 'text-ink hover:bg-mist/50'
+                        )}
+                      >
+                        {child.name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
               )}
-            >
-              <Plus size={14} />
-              Add child
-            </button>
-          </div>
-        )}
+              <button
+                onClick={() => {
+                  setSwitcherOpen(false)
+                  setAddChildOpen(true)
+                }}
+                className={cn(
+                  'flex w-full items-center gap-2 px-3 py-2.5 text-base text-sage-deep transition-colors hover:bg-mist/50',
+                  children && children.length > 1 && 'border-t border-mist'
+                )}
+              >
+                <Plus size={14} />
+                Add child
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Right: Parent avatars + notification bell */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 md:gap-3">
         {coParents?.map((parent) => (
           <Avatar
             key={parent.id}

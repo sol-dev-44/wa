@@ -67,9 +67,9 @@ export default function PhotosPage() {
   return (
     <PageShell title="Photos">
       {/* Toolbar: filter bar + upload button */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Filter tabs */}
-        <div className="flex items-center gap-1 rounded-lg bg-sand/60 p-1">
+        <div className="flex items-center gap-1 overflow-x-auto rounded-lg bg-sand/60 p-1">
           <button
             onClick={() => setFilterParent(null)}
             className={cn(
@@ -105,7 +105,7 @@ export default function PhotosPage() {
 
       {/* Content */}
       {isLoading ? (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
             <Skeleton key={i} className="aspect-square w-full rounded-lg" />
           ))}

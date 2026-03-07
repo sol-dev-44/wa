@@ -46,7 +46,7 @@ export default function WeekGrid({
   }, [coParents])
 
   return (
-    <div className="grid grid-cols-7 gap-2">
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 md:grid-cols-7">
       {days.map((day) => {
         const dateStr = format(day, 'yyyy-MM-dd')
         const block = blocksByDate.get(dateStr)
@@ -60,7 +60,7 @@ export default function WeekGrid({
             whileTap={{ scale: 0.98 }}
             onClick={() => onDayClick(dateStr)}
             className={cn(
-              'relative flex min-h-[120px] flex-col rounded-xl border p-3 text-left transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage',
+              'relative flex min-h-[100px] flex-col rounded-xl border p-3 text-left transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage md:min-h-[120px]',
               today ? 'ring-2 ring-sage' : 'border-mist',
               parent ? 'bg-white' : 'bg-sand/40'
             )}

@@ -85,7 +85,7 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
             aria-modal="true"
             aria-label={title}
             tabIndex={-1}
-            className="relative z-10 w-full max-w-lg rounded-xl border border-mist bg-white p-8 shadow-xl focus:outline-none"
+            className="relative z-10 mx-4 w-full max-w-lg rounded-xl border border-mist bg-white p-5 shadow-xl focus:outline-none md:mx-0 md:p-8"
           >
             {/* Header */}
             <div className="mb-4 flex items-center justify-between">

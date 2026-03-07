@@ -47,7 +47,7 @@ export default function MilestonesPage() {
   return (
     <PageShell title="Milestones">
       {/* Header row */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-base text-ink/50">
           Track and celebrate every step forward
         </p>
@@ -58,7 +58,7 @@ export default function MilestonesPage() {
       </div>
 
       {/* Category tabs */}
-      <div className="mb-8 flex flex-wrap gap-2">
+      <div className="mb-8 flex flex-wrap gap-1.5 sm:gap-2">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}

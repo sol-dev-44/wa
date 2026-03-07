@@ -122,7 +122,7 @@ function DashboardContent({ childId }: { childId: string }) {
       <div className="space-y-6 py-8">
         <Skeleton className="h-32 w-full rounded-xl" />
         <Skeleton className="h-24 w-full rounded-xl" />
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           <Skeleton className="h-24 rounded-xl" />
           <Skeleton className="h-24 rounded-xl" />
           <Skeleton className="h-24 rounded-xl" />
@@ -143,11 +143,11 @@ function DashboardContent({ childId }: { childId: string }) {
     >
       {/* ── Hero ── */}
       <motion.div variants={itemVariants}>
-        <div className="overflow-hidden rounded-xl bg-ink px-8 py-10 text-cream">
+        <div className="overflow-hidden rounded-xl bg-ink px-5 py-8 text-cream md:px-8 md:py-10">
           <p className="text-sm font-medium uppercase tracking-widest text-cream/50">
             Dashboard
           </p>
-          <h1 className="mt-2 font-serif text-4xl font-semibold italic">
+          <h1 className="mt-2 font-serif text-3xl font-semibold italic md:text-4xl">
             {child.name}
           </h1>
           <p className="mt-1 text-base text-cream/70">
@@ -167,7 +167,7 @@ function DashboardContent({ childId }: { childId: string }) {
       </motion.div>
 
       {/* ── Today's custody + Urgent flags row ── */}
-      <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4">
+      <motion.div variants={itemVariants} className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {/* Custody block */}
         <Card>
           <p className="text-sm font-medium uppercase tracking-wide text-clay">
@@ -232,7 +232,7 @@ function DashboardContent({ childId }: { childId: string }) {
       </motion.div>
 
       {/* ── Quick stat cards ── */}
-      <motion.div variants={itemVariants} className="grid grid-cols-4 gap-4">
+      <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
         {[
           {
             label: 'Photos',

@@ -39,7 +39,7 @@ export default function JournalPage() {
 
   return (
     <PageShell title="Journal">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-base text-ink/50">
           Only you and your co-parent can read these
         </p>
