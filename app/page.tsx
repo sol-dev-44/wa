@@ -11,7 +11,13 @@ import {
   MessageCircle,
   ArrowRight,
   Shield,
+  Play,
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { setDemoMode } from '@/lib/demo/mode'
+import { setDemoMode as setDemoModeAction, setActiveChildId } from '@/lib/store/appSlice'
+import { useAppDispatch } from '@/lib/store/store'
+import { DEMO_CHILD_ID } from '@/lib/demo/data'
 import type { Variants } from 'framer-motion'
 
 const fadeUp: Variants = {
@@ -57,6 +63,16 @@ const features = [
 ]
 
 export default function LandingPage() {
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+
+  function enterDemo() {
+    setDemoMode(true)
+    dispatch(setDemoModeAction(true))
+    dispatch(setActiveChildId(DEMO_CHILD_ID))
+    router.push('/dashboard')
+  }
+
   return (
     <div className="min-h-screen bg-cream">
       {/* Nav */}
@@ -126,7 +142,7 @@ export default function LandingPage() {
             matters most&mdash;your child&rsquo;s wellbeing, growth, and happiness.
           </motion.p>
 
-          <motion.div custom={4} variants={fadeUp} className="mt-10 flex gap-4">
+          <motion.div custom={4} variants={fadeUp} className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
             <Link
               href="/login"
               className="group inline-flex items-center gap-2 rounded-xl bg-sage-deep px-7 py-3.5 text-base font-medium text-white transition-all hover:bg-sage-deep/90 hover:shadow-lg hover:shadow-sage/20"
@@ -137,6 +153,13 @@ export default function LandingPage() {
                 className="transition-transform group-hover:translate-x-0.5"
               />
             </Link>
+            <button
+              onClick={enterDemo}
+              className="group inline-flex items-center gap-2 rounded-xl border border-mist bg-white px-7 py-3.5 text-base font-medium text-ink transition-all hover:border-sage hover:shadow-sm"
+            >
+              <Play size={16} className="text-sage-deep" />
+              Try the demo
+            </button>
           </motion.div>
 
           <motion.div

@@ -8,7 +8,10 @@ import { toast } from 'sonner'
 import Modal from '@/components/ui/Modal'
 import Button from '@/components/ui/Button'
 import { useGetCurrentCoParentQuery, useUpdateCoParentLabelMutation } from '@/lib/store/api'
-import { useAppSelector } from '@/lib/store/store'
+import { useAppSelector, useAppDispatch } from '@/lib/store/store'
+import { setDemoMode as setDemoModeAction } from '@/lib/store/appSlice'
+import { setDemoMode } from '@/lib/demo/mode'
+import { isDemoMode } from '@/lib/demo/mode'
 import { createClient } from '@/lib/supabase/client'
 import { LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -26,7 +29,9 @@ interface ProfileModalProps {
 
 export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   const activeChildId = useAppSelector((state) => state.app.activeChildId)
+  const demoMode = useAppSelector((state) => state.app.demoMode)
   const { data: currentCoParent } = useGetCurrentCoParentQuery(activeChildId ?? '', {
     skip: !activeChildId,
   })
@@ -45,6 +50,10 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
 
   useEffect(() => {
     if (isOpen) {
+      if (isDemoMode()) {
+        setEmail('demo@wa-app.co')
+        return
+      }
       const supabase = createClient()
       supabase.auth.getUser().then(({ data }) => {
         setEmail(data.user?.email ?? null)
@@ -64,6 +73,12 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
   }
 
   const handleSignOut = async () => {
+    if (isDemoMode()) {
+      setDemoMode(false)
+      dispatch(setDemoModeAction(false))
+      router.replace('/login')
+      return
+    }
     const supabase = createClient()
     await supabase.auth.signOut()
     router.replace('/login')

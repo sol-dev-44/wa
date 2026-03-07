@@ -5,6 +5,7 @@ import Masonry from 'react-masonry-css'
 import { motion } from 'framer-motion'
 import { format, parseISO } from 'date-fns'
 import { createClient } from '@/lib/supabase/client'
+import { isDemoMode } from '@/lib/demo/mode'
 import AuthorByline from '@/components/ui/AuthorByline'
 import type { Tables } from '@/types/database'
 
@@ -37,6 +38,12 @@ export default function PhotoGrid({ photos, onPhotoClick }: PhotoGridProps) {
   const [signedUrls, setSignedUrls] = useState<Record<string, string>>({})
 
   useEffect(() => {
+    if (isDemoMode()) {
+      const map: Record<string, string> = {}
+      photos.forEach((p) => { map[p.id] = p.storage_path })
+      setSignedUrls(map)
+      return
+    }
     let cancelled = false
     async function loadUrls() {
       const supabase = createClient()

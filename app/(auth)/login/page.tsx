@@ -5,9 +5,14 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
-import { Mail, ArrowRight, CheckCircle } from 'lucide-react'
+import { Mail, ArrowRight, CheckCircle, Play } from 'lucide-react'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { setDemoMode } from '@/lib/demo/mode'
+import { setDemoMode as setDemoModeAction, setActiveChildId } from '@/lib/store/appSlice'
+import { useAppDispatch } from '@/lib/store/store'
+import { DEMO_CHILD_ID } from '@/lib/demo/data'
 import Link from 'next/link'
 
 const loginSchema = z.object({
@@ -20,6 +25,15 @@ export default function LoginPage() {
   const [sent, setSent] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const supabase = createClient()
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+
+  function enterDemo() {
+    setDemoMode(true)
+    dispatch(setDemoModeAction(true))
+    dispatch(setActiveChildId(DEMO_CHILD_ID))
+    router.push('/dashboard')
+  }
 
   const {
     register,
@@ -135,7 +149,20 @@ export default function LoginPage() {
         </form>
       )}
 
-      <p className="mt-8 text-center font-sans text-xs text-ink/30">
+      <div className="mt-6 text-center">
+        <button
+          onClick={enterDemo}
+          className="inline-flex items-center gap-2 rounded-xl border border-mist bg-white px-6 py-3 font-sans text-sm font-medium text-ink transition-all hover:border-sage hover:shadow-sm"
+        >
+          <Play className="h-4 w-4 text-sage-deep" />
+          Try the demo
+        </button>
+        <p className="mt-2 font-sans text-xs text-ink/40">
+          No sign-up required
+        </p>
+      </div>
+
+      <p className="mt-6 text-center font-sans text-xs text-ink/30">
         By continuing, you agree to our terms of service and privacy policy.
       </p>
     </motion.div>

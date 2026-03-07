@@ -3,11 +3,13 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 interface AppState {
   activeChildId: string | null;
   sidebarCollapsed: boolean;
+  demoMode: boolean;
 }
 
 const initialState: AppState = {
   activeChildId: null,
   sidebarCollapsed: true,
+  demoMode: false,
 };
 
 export const appSlice = createSlice({
@@ -23,10 +25,13 @@ export const appSlice = createSlice({
     toggleSidebar(state) {
       state.sidebarCollapsed = !state.sidebarCollapsed;
     },
+    setDemoMode(state, action: PayloadAction<boolean>) {
+      state.demoMode = action.payload;
+    },
   },
 });
 
-export const { setActiveChildId, setSidebarCollapsed, toggleSidebar } =
+export const { setActiveChildId, setSidebarCollapsed, toggleSidebar, setDemoMode } =
   appSlice.actions;
 
 export default appSlice.reducer;

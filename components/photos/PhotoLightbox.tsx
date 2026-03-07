@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { format, parseISO } from 'date-fns'
 import { createClient } from '@/lib/supabase/client'
+import { isDemoMode } from '@/lib/demo/mode'
 import type { Tables } from '@/types/database'
 
 interface PhotoLightboxProps {
@@ -54,6 +55,10 @@ export default function PhotoLightbox({
   // Fetch signed URL for current photo
   useEffect(() => {
     if (!photo) return
+    if (isDemoMode()) {
+      setSignedUrl(photo.storage_path)
+      return
+    }
     let cancelled = false
     async function load() {
       const supabase = createClient()

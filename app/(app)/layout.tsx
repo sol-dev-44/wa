@@ -4,17 +4,24 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAppSelector } from '@/lib/store/store'
 import { createClient } from '@/lib/supabase/client'
+import { isDemoMode } from '@/lib/demo/mode'
 import Sidebar from '@/components/layout/Sidebar'
 import TopBar from '@/components/layout/TopBar'
+import DemoBanner from '@/components/demo/DemoBanner'
 import Skeleton from '@/components/ui/Skeleton'
 import { cn } from '@/lib/utils'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const collapsed = useAppSelector((state) => state.app.sidebarCollapsed)
+  const demoMode = useAppSelector((state) => state.app.demoMode)
   const router = useRouter()
   const [checked, setChecked] = useState(false)
 
   useEffect(() => {
+    if (isDemoMode()) {
+      setChecked(true)
+      return
+    }
     const supabase = createClient()
     supabase.auth.getUser().then(({ data }) => {
       if (!data.user) {
@@ -50,6 +57,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </main>
       </div>
+
+      <DemoBanner />
     </div>
   )
 }
