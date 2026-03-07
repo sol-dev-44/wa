@@ -8,6 +8,7 @@ import { motion } from 'framer-motion'
 import { Mail, ArrowRight, CheckCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { createClient } from '@/lib/supabase/client'
+import Link from 'next/link'
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -60,9 +61,12 @@ export default function LoginPage() {
       className="w-full max-w-md px-6"
     >
       <div className="text-center">
-        <h1 className="font-serif text-5xl italic text-[#2C2C2C]">Wa</h1>
-        <p className="mt-3 font-sans text-base text-[#2C2C2C]/60">
-          For parents who put their child first.
+        <Link href="/" className="inline-block">
+          <span className="text-4xl leading-none">和</span>
+          <h1 className="mt-2 font-serif text-5xl italic text-ink">Wa</h1>
+        </Link>
+        <p className="mt-3 font-sans text-base text-ink/50">
+          Harmony in co-parenting
         </p>
       </div>
 
@@ -71,17 +75,17 @@ export default function LoginPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className="mt-10 rounded-2xl border border-[#EAE4DC] bg-white p-8 text-center"
+          className="mt-10 rounded-2xl border border-mist bg-white p-8 text-center"
         >
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#4A7050]/10">
-            <CheckCircle className="h-6 w-6 text-[#4A7050]" />
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-sage/10">
+            <CheckCircle className="h-6 w-6 text-sage-deep" />
           </div>
-          <h2 className="mt-4 font-serif text-xl text-[#2C2C2C]">
+          <h2 className="mt-4 font-serif text-xl text-ink">
             Check your email
           </h2>
-          <p className="mt-2 font-sans text-sm text-[#2C2C2C]/60">
+          <p className="mt-2 font-sans text-sm text-ink/50">
             We sent a magic link to{' '}
-            <span className="font-medium text-[#2C2C2C]">
+            <span className="font-medium text-ink">
               {getValues('email')}
             </span>
             . Click the link to sign in.
@@ -89,26 +93,26 @@ export default function LoginPage() {
         </motion.div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
-          <div className="rounded-2xl border border-[#EAE4DC] bg-white p-8">
+          <div className="rounded-2xl border border-mist bg-white p-8">
             <label
               htmlFor="email"
-              className="block font-sans text-sm font-medium text-[#2C2C2C]"
+              className="block font-sans text-sm font-medium text-ink/70"
             >
               Email address
             </label>
             <div className="relative mt-2">
-              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#C9A882]" />
+              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-clay" />
               <input
                 id="email"
                 type="email"
                 autoComplete="email"
                 placeholder="you@example.com"
                 {...register('email')}
-                className="w-full rounded-xl border border-[#EAE4DC] bg-[#FDFAF6] py-3 pl-10 pr-4 font-sans text-sm text-[#2C2C2C] placeholder:text-[#2C2C2C]/30 focus:border-[#4A7050] focus:outline-none focus:ring-1 focus:ring-[#4A7050] transition-colors"
+                className="w-full rounded-xl border border-mist bg-cream py-3 pl-10 pr-4 font-sans text-sm text-ink placeholder:text-ink/25 focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage/30 transition-colors"
               />
             </div>
             {errors.email && (
-              <p className="mt-2 font-sans text-xs text-red-500">
+              <p className="mt-2 font-sans text-xs text-terracotta">
                 {errors.email.message}
               </p>
             )}
@@ -116,7 +120,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-[#4A7050] py-3 font-sans text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-sage-deep py-3 font-sans text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {submitting ? (
                 <span>Sending...</span>
@@ -131,7 +135,7 @@ export default function LoginPage() {
         </form>
       )}
 
-      <p className="mt-8 text-center font-sans text-xs text-[#2C2C2C]/40">
+      <p className="mt-8 text-center font-sans text-xs text-ink/30">
         By continuing, you agree to our terms of service and privacy policy.
       </p>
     </motion.div>

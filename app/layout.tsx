@@ -18,8 +18,8 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Wa',
-  description: 'For parents who put their child first.',
+  title: 'Wa - Harmony in Co-Parenting',
+  description: 'Two homes, one shared story. Wa brings co-parents together around what matters most - your child\'s wellbeing, growth, and happiness.',
 }
 
 export default function RootLayout({
