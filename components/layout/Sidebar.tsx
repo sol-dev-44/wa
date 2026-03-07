@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -10,11 +11,14 @@ import {
   Heart,
   Calendar,
   FolderOpen,
+  MessageCircle,
   X,
+  Settings,
 } from 'lucide-react'
 import { useAppSelector, useAppDispatch } from '@/lib/store/store'
 import { toggleSidebar } from '@/lib/store/appSlice'
 import { cn } from '@/lib/utils'
+import ProfileModal from '@/components/profile/ProfileModal'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -24,12 +28,14 @@ const navItems = [
   { href: '/health', label: 'Health', icon: Heart },
   { href: '/schedule', label: 'Schedule', icon: Calendar },
   { href: '/documents', label: 'Documents', icon: FolderOpen },
+  { href: '/messages', label: 'Messages', icon: MessageCircle },
 ]
 
 export default function Sidebar() {
   const pathname = usePathname()
   const collapsed = useAppSelector((state) => state.app.sidebarCollapsed)
   const dispatch = useAppDispatch()
+  const [profileOpen, setProfileOpen] = useState(false)
 
   return (
     <>
@@ -111,11 +117,29 @@ export default function Sidebar() {
           })}
         </nav>
 
+        {/* Settings / Profile */}
+        <div className={cn('px-2 pb-2', collapsed && 'md:px-1')}>
+          <button
+            onClick={() => setProfileOpen(true)}
+            className={cn(
+              'flex w-full items-center gap-3 rounded-lg px-3 py-3 text-base font-medium transition-colors',
+              'text-cream/60 hover:bg-white/5 hover:text-cream/90',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage'
+            )}
+            title="Profile settings"
+          >
+            <Settings size={20} className="shrink-0 text-cream/50" aria-hidden="true" />
+            <span className={cn(collapsed && 'md:hidden')}>Settings</span>
+          </button>
+        </div>
+
         {/* Footer */}
         <div className={cn('px-4 py-4', collapsed && 'md:hidden')}>
           <p className="text-[10px] text-cream/30">For parents who put their child first.</p>
         </div>
       </aside>
+
+      <ProfileModal isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
     </>
   )
 }

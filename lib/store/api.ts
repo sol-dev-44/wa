@@ -8,7 +8,7 @@ export const api = createApi({
   baseQuery: fakeBaseQuery(),
   tagTypes: [
     'Children', 'CoParents', 'Photos', 'Journal', 'Milestones',
-    'Health', 'Schedule', 'Documents', 'Activity', 'Summaries', 'MilestoneSuggestions',
+    'Health', 'Schedule', 'Documents', 'Activity', 'Summaries', 'MilestoneSuggestions', 'Messages',
   ],
   endpoints: (builder) => ({
     // ── Children ──
@@ -471,6 +471,69 @@ export const api = createApi({
       invalidatesTags: ['MilestoneSuggestions'],
     }),
 
+    // ── Profile ──
+    getCurrentCoParent: builder.query<Tables<'co_parents'> | null, string>({
+      queryFn: async (childId) => {
+        const supabase = createClient()
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return { error: { message: 'Not authenticated' } }
+        const { data, error } = await supabase
+          .from('co_parents')
+          .select('*')
+          .eq('child_id', childId)
+          .eq('user_id', user.id)
+          .maybeSingle()
+        if (error) return { error }
+        return { data }
+      },
+      providesTags: (_r, _e, childId) => [{ type: 'CoParents', id: childId }],
+    }),
+
+    updateCoParentLabel: builder.mutation<Tables<'co_parents'>, { id: string; label: string }>({
+      queryFn: async ({ id, label }) => {
+        const supabase = createClient()
+        const { data, error } = await supabase
+          .from('co_parents')
+          .update({ label })
+          .eq('id', id)
+          .select()
+          .single()
+        if (error) return { error }
+        return { data }
+      },
+      invalidatesTags: ['CoParents'],
+    }),
+
+    // ── Messages ──
+    getMessages: builder.query<Tables<'messages'>[], string>({
+      queryFn: async (childId) => {
+        const supabase = createClient()
+        const { data, error } = await supabase
+          .from('messages')
+          .select('*')
+          .eq('child_id', childId)
+          .order('created_at', { ascending: true })
+          .limit(100)
+        if (error) return { error }
+        return { data: data ?? [] }
+      },
+      providesTags: (_r, _e, childId) => [{ type: 'Messages', id: childId }],
+    }),
+
+    sendMessage: builder.mutation<Tables<'messages'>, { child_id: string; sender_id: string; body: string }>({
+      queryFn: async (msg) => {
+        const supabase = createClient()
+        const { data, error } = await supabase
+          .from('messages')
+          .insert(msg)
+          .select()
+          .single()
+        if (error) return { error }
+        return { data }
+      },
+      invalidatesTags: (_r, _e, arg) => [{ type: 'Messages', id: arg.child_id }],
+    }),
+
     // ── Invites ──
     createInvite: builder.mutation<Tables<'invites'>, { child_id: string; created_by: string }>({
       queryFn: async (invite) => {
@@ -520,4 +583,8 @@ export const {
   useGetMilestoneSuggestionsQuery,
   useUpdateMilestoneSuggestionMutation,
   useCreateInviteMutation,
+  useGetCurrentCoParentQuery,
+  useUpdateCoParentLabelMutation,
+  useGetMessagesQuery,
+  useSendMessageMutation,
 } = api

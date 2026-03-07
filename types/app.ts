@@ -9,6 +9,7 @@ export type HealthNote = Tables<'health_notes'>
 export type ScheduleBlock = Tables<'schedule_blocks'>
 export type Document = Tables<'child_documents'>
 export type Summary = Tables<'summaries'>
+export type Message = Tables<'messages'>
 export type MilestoneSuggestion = Tables<'milestone_suggestions'>
 
 export type CoParentWithUser = CoParent & {
